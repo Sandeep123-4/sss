@@ -11,7 +11,7 @@ WORKDIR /app
 COPY . /app
 
 # Build server
-RUN g++ server.cpp -o server -pthread
+RUN g++ main.cpp -o server -pthread
 
 # Expose Render port
 EXPOSE 9002
