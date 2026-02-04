@@ -13,6 +13,6 @@ RUN git clone https://github.com/zaphoyd/websocketpp.git /opt/websocketpp
 WORKDIR /app
 COPY . /app
 
-RUN g++ server.cpp -o server -std=c++17 -pthread -I/opt/websocketpp
+RUN g++ main.cpp -o server -std=c++17 -pthread -I/opt/websocketpp
 
 CMD ["./server"]
