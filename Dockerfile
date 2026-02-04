@@ -1,7 +1,7 @@
 # Use Ubuntu 24.04 as base
 FROM ubuntu:24.04
 
-# Install build tools, ASIO, git, OpenSSL
+# Install build tools and dependencies
 RUN apt-get update && apt-get install -y \
     g++ \
     make \
@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     && apt-get clean
 
-# Download WebSocket++ headers
+# Clone WebSocket++ headers
 RUN git clone https://github.com/zaphoyd/websocketpp.git /opt/websocketpp
 
 # Set working directory
@@ -21,7 +21,7 @@ COPY . /app
 # Compile server
 RUN g++ main.cpp -o server -std=c++17 -pthread -I/opt/websocketpp
 
-# Expose port (Render sets $PORT automatically)
+# Expose port (Render maps $PORT automatically)
 EXPOSE 9002
 
 # Start server
