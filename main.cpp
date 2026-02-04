@@ -58,7 +58,8 @@ private:
 
         lock_guard<mutex> lock(mtx);
         for (auto& client : clients) {
-            if (client != sender) {               // broadcast to everyone except sender
+            // ✅ Use .lock() to compare weak_ptrs safely
+            if (client.lock() != sender.lock()) {
                 ws_server.send(client, payload, websocketpp::frame::opcode::text);
             }
         }
