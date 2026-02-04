@@ -1,20 +1,18 @@
-# Dockerfile
 FROM ubuntu:24.04
 
-# Install dependencies
-RUN apt-get update && \
-    apt-get install -y g++ make cmake libasio-dev git && \
-    apt-get clean
+RUN apt-get update && apt-get install -y \
+    g++ \
+    git \
+    cmake \
+    libssl-dev \
+    libasio-dev
 
-# Copy project
+# Download websocketpp headers
+RUN git clone https://github.com/zaphoyd/websocketpp.git /opt/websocketpp
+
 WORKDIR /app
 COPY . /app
 
-# Build server
-RUN g++ main.cpp -o server -pthread
+RUN g++ server.cpp -o server -std=c++17 -pthread -I/opt/websocketpp
 
-# Expose Render port
-EXPOSE 9002
-
-# Start server
 CMD ["./server"]
